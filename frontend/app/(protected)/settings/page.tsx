@@ -6,6 +6,9 @@
 import { auth } from '@/lib/auth'
 import { headers } from 'next/headers'
 import Link from 'next/link'
+
+// Force dynamic rendering because we use headers() for session check
+export const dynamic = 'force-dynamic'
 import { ArrowLeft, User, Shield, Bell, Palette, Tag, SortAsc, Trash2 } from 'lucide-react'
 import { Avatar } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'

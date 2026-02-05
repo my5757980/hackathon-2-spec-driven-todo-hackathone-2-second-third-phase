@@ -52,9 +52,14 @@ function parseSignInError(error: any): string {
     return error.message
   }
 
-  // Network errors
-  if (error?.name === 'TypeError' && error?.message?.includes('fetch')) {
-    return 'Unable to connect to server. Please check your internet connection and try again.'
+  // Network errors - "Failed to fetch" typically means CORS or network issue
+  if (error?.name === 'TypeError' || error?.message?.toLowerCase().includes('fetch')) {
+    return 'Unable to connect to authentication server. This may be a temporary issue - please try again.'
+  }
+
+  // Check for the exact "Failed to fetch" message
+  if (typeof error?.message === 'string' && error.message.toLowerCase().includes('failed to fetch')) {
+    return 'Connection error. Please check your internet connection and try again.'
   }
 
   return 'Failed to sign in. Please try again.'

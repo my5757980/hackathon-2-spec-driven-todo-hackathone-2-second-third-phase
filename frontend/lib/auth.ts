@@ -17,12 +17,25 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
 })
 
+// Get the base URL for Better Auth server-side
+// VERCEL_URL is automatically set by Vercel, use it if BETTER_AUTH_URL is not set
+function getServerBetterAuthURL(): string {
+  if (process.env.BETTER_AUTH_URL) {
+    return process.env.BETTER_AUTH_URL
+  }
+  // Vercel sets VERCEL_URL without protocol, so add https://
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`
+  }
+  return 'http://localhost:3000'
+}
+
 export const auth = betterAuth({
   // PostgreSQL database adapter using pg Pool
   database: pool,
 
   secret: process.env.BETTER_AUTH_SECRET,
-  baseURL: process.env.BETTER_AUTH_URL || 'http://localhost:3000',
+  baseURL: getServerBetterAuthURL(),
 
   // Email/password authentication
   emailAndPassword: {
@@ -89,7 +102,7 @@ export async function generateJwtToken(userId: string): Promise<string> {
   }
 
   const secretKey = new TextEncoder().encode(secret)
-  const baseUrl = process.env.BETTER_AUTH_URL || 'http://localhost:3000'
+  const baseUrl = getServerBetterAuthURL()
 
   const token = await new jose.SignJWT({ sub: userId })
     .setProtectedHeader({ alg: 'HS256' })

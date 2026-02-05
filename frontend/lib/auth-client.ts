@@ -17,8 +17,8 @@
  */
 import { createAuthClient } from 'better-auth/react'
 
-// Debug flag
-const DEBUG = process.env.NODE_ENV === 'development'
+// Debug flag - enable in dev or when NEXT_PUBLIC_DEBUG_AUTH is set
+const DEBUG = process.env.NODE_ENV === 'development' || process.env.NEXT_PUBLIC_DEBUG_AUTH === 'true'
 
 function log(...args: any[]) {
   if (DEBUG) {
@@ -26,9 +26,37 @@ function log(...args: any[]) {
   }
 }
 
+// Log the configured URL on module load (helps debug production issues)
+if (typeof window !== 'undefined') {
+  const configuredUrl = process.env.NEXT_PUBLIC_BETTER_AUTH_URL || 'http://localhost:3000'
+  console.log('[Auth Client] Configured NEXT_PUBLIC_BETTER_AUTH_URL:', configuredUrl)
+}
+
+// Determine the base URL for Better Auth
+// In production (Vercel), if NEXT_PUBLIC_BETTER_AUTH_URL is not set,
+// use the browser's origin to ensure auth requests go to the frontend
+function getBetterAuthBaseURL(): string {
+  // First, check if env var is set and not empty
+  const envUrl = process.env.NEXT_PUBLIC_BETTER_AUTH_URL
+  if (envUrl && envUrl.trim() !== '') {
+    return envUrl
+  }
+
+  // In browser, use window.location.origin as fallback
+  if (typeof window !== 'undefined') {
+    return window.location.origin
+  }
+
+  // Server-side fallback
+  return 'http://localhost:3000'
+}
+
+const betterAuthBaseURL = getBetterAuthBaseURL()
+log('Better Auth base URL:', betterAuthBaseURL)
+
 export const authClient = createAuthClient({
   // Better Auth API routes are on the Next.js frontend, not the FastAPI backend
-  baseURL: process.env.NEXT_PUBLIC_BETTER_AUTH_URL || 'http://localhost:3000',
+  baseURL: betterAuthBaseURL,
   // NOTE: jwtClient plugin removed to avoid JWKS dependency.
   // Use getJwtToken() which calls our custom /api/auth/jwt endpoint.
 })
@@ -79,7 +107,8 @@ export async function getJwtToken(forceRefresh = false): Promise<string | null> 
   }
 
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BETTER_AUTH_URL || ''
+    // Use the same base URL logic as the auth client
+    const baseUrl = getBetterAuthBaseURL()
     log('Fetching JWT token from:', baseUrl + '/api/auth/jwt')
 
     const response = await fetch(`${baseUrl}/api/auth/jwt`, {

@@ -27,11 +27,11 @@ Single project structure per plan.md:
 
 **Purpose**: Create new files and extend existing infrastructure for recurring/due dates feature
 
-- [ ] T001 Create RecurringInterval enum in src/models/recurring_interval.py
-- [ ] T002 [P] Create date_utils module in src/core/date_utils.py with add_interval function
-- [ ] T003 [P] Create validators module in src/core/validators.py with reminder offset parsing
+- [X] T001 Create RecurringInterval enum in src/models/recurring_interval.py
+- [X] T002 [P] Create date_utils module in src/core/date_utils.py with add_interval function
+- [X] T003 [P] Create validators module in src/core/validators.py with reminder offset parsing
 
-**Checkpoint**: Core utilities ready for feature implementation
+**Checkpoint**: Core utilities ready for feature implementation ✅
 
 ---
 
@@ -41,10 +41,10 @@ Single project structure per plan.md:
 
 **⚠️ CRITICAL**: All user stories depend on the extended Task model
 
-- [ ] T004 Extend Task model in src/models/task.py with due_date, recurring_interval, reminder_offset, parent_task_id fields
-- [ ] T005 Update task model imports to include RecurringInterval enum in src/models/__init__.py
+- [X] T004 Extend Task model in src/models/task.py with due_date, recurring_interval, reminder_offset, parent_task_id fields
+- [X] T005 Update task model imports to include RecurringInterval enum in src/models/__init__.py
 
-**Checkpoint**: Task model ready with all new fields - user story implementation can begin
+**Checkpoint**: Task model ready with all new fields - user story implementation can begin ✅
 
 ---
 
@@ -56,12 +56,12 @@ Single project structure per plan.md:
 
 ### Implementation for User Story 1
 
-- [ ] T006 [US1] Add --recurring option to add command in src/cli/commands.py
-- [ ] T007 [US1] Implement recurring interval validation in src/core/validators.py
-- [ ] T008 [US1] Update TaskService.create_task to accept recurring_interval in src/services/task_service.py
-- [ ] T009 [US1] Update success message to include recurrence info in src/cli/commands.py
+- [X] T006 [US1] Add --recurring option to add command in src/cli/commands.py
+- [X] T007 [US1] Implement recurring interval validation in src/core/validators.py
+- [X] T008 [US1] Update TaskService.create_task to accept recurring_interval in src/services/task_service.py
+- [X] T009 [US1] Update success message to include recurrence info in src/cli/commands.py
 
-**Checkpoint**: Users can create recurring tasks via CLI
+**Checkpoint**: Users can create recurring tasks via CLI ✅
 
 ---
 
@@ -73,13 +73,13 @@ Single project structure per plan.md:
 
 ### Implementation for User Story 2
 
-- [ ] T010 [US2] Add parse_due_date function in src/core/validators.py
-- [ ] T011 [US2] Add --due option to add command in src/cli/commands.py
-- [ ] T012 [US2] Update TaskService.create_task to accept due_date in src/services/task_service.py
-- [ ] T013 [US2] Add past date warning logic in src/cli/commands.py
-- [ ] T014 [US2] Update success message to include due date info in src/cli/commands.py
+- [X] T010 [US2] Add parse_due_date function in src/core/validators.py
+- [X] T011 [US2] Add --due option to add command in src/cli/commands.py
+- [X] T012 [US2] Update TaskService.create_task to accept due_date in src/services/task_service.py
+- [X] T013 [US2] Add past date warning logic in src/cli/commands.py
+- [X] T014 [US2] Update success message to include due date info in src/cli/commands.py
 
-**Checkpoint**: Users can create tasks with due dates via CLI
+**Checkpoint**: Users can create tasks with due dates via CLI ✅
 
 ---
 
@@ -91,12 +91,12 @@ Single project structure per plan.md:
 
 ### Implementation for User Story 3
 
-- [ ] T015 [US3] Add --remind option to add command in src/cli/commands.py
-- [ ] T016 [US3] Implement reminder validation (requires due_date) in src/core/validators.py
-- [ ] T017 [US3] Update TaskService.create_task to accept reminder_offset in src/services/task_service.py
-- [ ] T018 [US3] Update success message to include reminder info in src/cli/commands.py
+- [X] T015 [US3] Add --remind option to add command in src/cli/commands.py
+- [X] T016 [US3] Implement reminder validation (requires due_date) in src/core/validators.py
+- [X] T017 [US3] Update TaskService.create_task to accept reminder_offset in src/services/task_service.py
+- [X] T018 [US3] Update success message to include reminder info in src/cli/commands.py
 
-**Checkpoint**: Users can create tasks with reminders via CLI
+**Checkpoint**: Users can create tasks with reminders via CLI ✅
 
 ---
 
@@ -108,13 +108,13 @@ Single project structure per plan.md:
 
 ### Implementation for User Story 4
 
-- [ ] T019 [US4] Create recurring_service module in src/services/recurring_service.py
-- [ ] T020 [US4] Implement create_next_occurrence function in src/services/recurring_service.py
-- [ ] T021 [US4] Extend complete command to check for recurring tasks in src/cli/commands.py
-- [ ] T022 [US4] Integrate RecurringService with TaskService.complete_task in src/services/task_service.py
-- [ ] T023 [US4] Update complete command output for recurring tasks in src/cli/commands.py
+- [X] T019 [US4] Create recurring_service module in src/services/recurring_service.py
+- [X] T020 [US4] Implement create_next_occurrence function in src/services/recurring_service.py
+- [X] T021 [US4] Extend complete command to check for recurring tasks in src/cli/commands.py
+- [X] T022 [US4] Integrate RecurringService with TaskService.complete_task in src/services/task_service.py
+- [X] T023 [US4] Update complete command output for recurring tasks in src/cli/commands.py
 
-**Checkpoint**: Recurring tasks auto-create next instance on completion
+**Checkpoint**: Recurring tasks auto-create next instance on completion ✅
 
 ---
 
@@ -126,14 +126,14 @@ Single project structure per plan.md:
 
 ### Implementation for User Story 5
 
-- [ ] T024 [US5] Add --recurring option to update command in src/cli/commands.py
-- [ ] T025 [US5] Add --due option to update command in src/cli/commands.py
-- [ ] T026 [US5] Add --remind option to update command in src/cli/commands.py
-- [ ] T027 [US5] Implement TaskService.update_task extensions in src/services/task_service.py
-- [ ] T028 [US5] Handle "none" value for removing recurrence/due date in src/cli/commands.py
-- [ ] T029 [US5] Update output messages for recurrence changes in src/cli/commands.py
+- [X] T024 [US5] Add --recurring option to update command in src/cli/commands.py
+- [X] T025 [US5] Add --due option to update command in src/cli/commands.py
+- [X] T026 [US5] Add --remind option to update command in src/cli/commands.py
+- [X] T027 [US5] Implement TaskService.update_task extensions in src/services/task_service.py
+- [X] T028 [US5] Handle "none" value for removing recurrence/due date in src/cli/commands.py
+- [X] T029 [US5] Update output messages for recurrence changes in src/cli/commands.py
 
-**Checkpoint**: Users can modify recurring/due/reminder settings on existing tasks
+**Checkpoint**: Users can modify recurring/due/reminder settings on existing tasks ✅
 
 ---
 
@@ -145,14 +145,14 @@ Single project structure per plan.md:
 
 ### Implementation for User Story 6
 
-- [ ] T030 [US6] Add --due filter option (today/week/overdue) to list command in src/cli/commands.py
-- [ ] T031 [US6] Add --sort due option to list command in src/cli/commands.py
-- [ ] T032 [US6] Implement due date filtering logic in src/services/task_service.py
-- [ ] T033 [US6] Implement due date sorting logic in src/services/task_service.py
-- [ ] T034 [US6] Update list output to show Due and Recurring columns in src/cli/commands.py
-- [ ] T035 [US6] Add overdue indicator (*) to list output in src/cli/commands.py
+- [X] T030 [US6] Add --due filter option (today/week/overdue) to list command in src/cli/commands.py
+- [X] T031 [US6] Add --sort due option to list command in src/cli/commands.py
+- [X] T032 [US6] Implement due date filtering logic in src/services/task_service.py
+- [X] T033 [US6] Implement due date sorting logic in src/services/task_service.py
+- [X] T034 [US6] Update list output to show Due and Recurring columns in src/cli/commands.py
+- [X] T035 [US6] Add overdue indicator (*) to list output in src/cli/commands.py
 
-**Checkpoint**: Users can filter and sort tasks by due date
+**Checkpoint**: Users can filter and sort tasks by due date ✅
 
 ---
 
@@ -164,12 +164,12 @@ Single project structure per plan.md:
 
 ### Implementation for User Story 7
 
-- [ ] T036 [US7] Create reminder_service module in src/services/reminder_service.py
-- [ ] T037 [US7] Implement get_upcoming_reminders function in src/services/reminder_service.py
-- [ ] T038 [US7] Add --reminders flag to list command in src/cli/commands.py
-- [ ] T039 [US7] Format reminder output display in src/cli/commands.py
+- [X] T036 [US7] Create reminder_service module in src/services/reminder_service.py
+- [X] T037 [US7] Implement get_upcoming_reminders function in src/services/reminder_service.py
+- [X] T038 [US7] Add --reminders flag to list command in src/cli/commands.py
+- [X] T039 [US7] Format reminder output display in src/cli/commands.py
 
-**Checkpoint**: Users can view upcoming reminders via CLI
+**Checkpoint**: Users can view upcoming reminders via CLI ✅
 
 ---
 
@@ -177,11 +177,11 @@ Single project structure per plan.md:
 
 **Purpose**: Final integration, validation, and manual testing
 
-- [ ] T040 Update src/services/__init__.py exports for new services
-- [ ] T041 Update src/core/__init__.py exports for validators and date_utils
-- [ ] T042 [P] Create manual test checklist in tests/manual/phase1-recurring-checklist.md
-- [ ] T043 Run quickstart.md validation scenarios
-- [ ] T044 Verify existing task-crud and priorities features still work (regression check)
+- [X] T040 Update src/services/__init__.py exports for new services
+- [X] T041 Update src/core/__init__.py exports for validators and date_utils
+- [X] T042 [P] Create manual test checklist in tests/manual/phase1-recurring-checklist.md
+- [X] T043 Run quickstart.md validation scenarios
+- [X] T044 Verify existing task-crud and priorities features still work (regression check)
 
 ---
 

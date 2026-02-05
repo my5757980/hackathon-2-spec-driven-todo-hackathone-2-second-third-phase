@@ -245,10 +245,4 @@ Wait for consent; never auto-create ADRs. Group related decisions (stacks, authe
 ## Code Standards
 See `.specify/memory/constitution.md` for code quality, testing, performance, security, and architecture principles.
 
-## Current Focus
 
-- **Current branch/feature:** task-crud (Phase 1 CLI)
-- **Next milestone:** Complete Phase 1 console app with all basic CRUD features
-  - task-crud
-  - task-priorities-search-sorting
-  - task-recurring-Due-Dates-and-reminders

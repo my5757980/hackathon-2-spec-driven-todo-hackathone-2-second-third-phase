@@ -31,3 +31,7 @@ ERR_TASK_003 = "ERR_TASK_003"  # Description too long
 ERR_TASK_004 = "ERR_TASK_004"  # Task not found
 ERR_TASK_005 = "ERR_TASK_005"  # Invalid ID format
 ERR_TASK_006 = "ERR_TASK_006"  # No update fields provided
+ERR_TASK_010 = "ERR_TASK_010"  # Invalid date format
+ERR_TASK_011 = "ERR_TASK_011"  # Invalid recurrence interval
+ERR_TASK_012 = "ERR_TASK_012"  # Invalid reminder offset
+ERR_TASK_013 = "ERR_TASK_013"  # Reminder without due date

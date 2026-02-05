@@ -1,0 +1,7 @@
+create virtual enviroment: python3 -m venv venv
+
+activate: source venv/bin/activate
+
+backend start: uvicorn main:app --reload --port 8000
+
+frontend start: npm run dev

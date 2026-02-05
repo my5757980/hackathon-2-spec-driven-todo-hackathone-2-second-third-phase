@@ -20,6 +20,7 @@ import { TaskForm, type TaskFormData } from '@/components/features/task'
 import { api } from '@/lib/api-client'
 import { useSession } from '@/lib/auth-client'
 import { useToast } from '@/components/ui/toast'
+import { onTasksChanged } from '@/lib/task-events'
 
 type TabValue = 'all' | 'active' | 'completed'
 
@@ -53,14 +54,17 @@ export default function DashboardPage() {
   }, [searchParams, addToast])
 
   // Fetch tasks from backend on mount
-  const fetchTasks = useCallback(async () => {
+  // silentRefresh: when true, don't show loading indicator (used for background refreshes)
+  const fetchTasks = useCallback(async (silentRefresh = false) => {
     if (!userId) {
       console.log('[Dashboard] No user ID available, skipping fetch')
       return
     }
 
-    console.log('[Dashboard] Fetching tasks for user:', userId)
-    setIsLoading(true)
+    console.log('[Dashboard] Fetching tasks for user:', userId, silentRefresh ? '(silent)' : '')
+    if (!silentRefresh) {
+      setIsLoading(true)
+    }
     setError(null)
 
     try {
@@ -97,7 +101,9 @@ export default function DashboardPage() {
         addToast(errorMessage, 'error')
       }
     } finally {
-      setIsLoading(false)
+      if (!silentRefresh) {
+        setIsLoading(false)
+      }
     }
   }, [userId, initialFetchDone, addToast])
 
@@ -111,6 +117,16 @@ export default function DashboardPage() {
       setIsLoading(false)
     }
   }, [isSessionLoading, userId, fetchTasks])
+
+  // Listen for task changes from chatbot to refresh the list
+  useEffect(() => {
+    const cleanup = onTasksChanged((operation) => {
+      console.log('[Dashboard] Tasks changed via chatbot:', operation)
+      // Refresh tasks list silently when chatbot modifies tasks (no loading spinner)
+      fetchTasks(true)
+    })
+    return cleanup
+  }, [fetchTasks])
 
   // Filter and sort tasks
   const filteredTasks = useMemo(() => {

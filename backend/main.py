@@ -18,6 +18,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 # Import routes AFTER load_dotenv() so DATABASE_URL is available
 from routes.tasks import router as tasks_router
+from routes.chat import router as chat_router
 from db import create_db_and_tables
 
 
@@ -84,3 +85,4 @@ async def root():
 
 # Register routers
 app.include_router(tasks_router)
+app.include_router(chat_router)

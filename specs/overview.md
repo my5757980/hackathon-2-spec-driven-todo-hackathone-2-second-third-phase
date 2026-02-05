@@ -8,24 +8,24 @@ A Todo application that evolves through 5 phases—from a simple Python CLI to a
 
 ## Current Phase
 
-**Phase 1: In-Memory Python Console App** (In Progress)
+**Phase 3: chatbot
 
 Building the foundation with core task management via CLI. All features implemented through `/sp.specify` → `/sp.plan` → `/sp.implement` workflow.
 
 ## Tech Stack
 
-### Phase 1 (Current)
+### Phase 1 (completed)
 - **Runtime**: Python 3.13+
 - **CLI Framework**: Click
 - **Storage**: In-memory (list/dict)
 
-### Phase 2 (Planned)
+### Phase 2 (completed)
 - **Frontend**: Next.js 16+ (App Router), TypeScript, Tailwind CSS, Shadcn UI
 - **Backend**: FastAPI, SQLModel
 - **Database**: Neon PostgreSQL
 - **Auth**: Better Auth + JWT
 
-### Phase 3 (Planned)
+### Phase 3 (inprogress)
 - **AI**: OpenAI Agents SDK, ChatKit
 - **Integration**: Official MCP SDK
 
@@ -100,9 +100,9 @@ todo-app/
 
 | Phase | Status | Key Milestone |
 |-------|--------|---------------|
-| Phase 1 | In Progress | CLI with full CRUD |
-| Phase 2 | Planned | Web app with auth |
-| Phase 3 | Planned | AI chatbot integration |
+| Phase 1 | completed | CLI with full CRUD |
+| Phase 2 | completed | Web app with auth |
+| Phase 3 | In Progress | AI chatbot integration |
 | Phase 4 | Planned | Local K8s deployment |
 | Phase 5 | Planned | Cloud-native with Dapr |
 

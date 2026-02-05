@@ -8,6 +8,9 @@ import { redirect } from 'next/navigation'
 import { headers } from 'next/headers'
 import { Header } from '@/components/layout/header'
 
+// Force dynamic rendering because we use headers() for session check
+export const dynamic = 'force-dynamic'
+
 export default async function ProtectedLayout({
   children,
 }: {

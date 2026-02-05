@@ -53,8 +53,15 @@ app = FastAPI(
 )
 
 # Configure CORS
-# In production, replace "*" with specific frontend origin
-cors_origins = os.getenv("CORS_ORIGINS", "http://localhost:3000").split(",")
+# CORS_ORIGINS can be a comma-separated list of allowed origins
+# Default includes localhost for development and Vercel production domain
+default_origins = ",".join([
+    "http://localhost:3000",
+    "https://hackathon-2-spec-driven-todo.vercel.app",
+])
+cors_origins_str = os.getenv("CORS_ORIGINS", default_origins)
+# Clean up origins: strip whitespace and filter empty strings
+cors_origins = [origin.strip() for origin in cors_origins_str.split(",") if origin.strip()]
 
 app.add_middleware(
     CORSMiddleware,

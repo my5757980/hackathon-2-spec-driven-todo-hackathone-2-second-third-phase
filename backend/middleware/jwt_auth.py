@@ -250,17 +250,18 @@ class JWTBearer(HTTPBearer):
 
         try:
             print(f"[JWT Auth] Verifying with symmetric key (HS256)")
+            # NOTE: issuer/audience verification disabled because frontend
+            # and backend are on different domains (Vercel vs Railway).
+            # The shared BETTER_AUTH_SECRET already proves token authenticity.
             payload = jwt.decode(
                 token,
                 BETTER_AUTH_SECRET,
                 algorithms=["HS256"],
-                audience=BETTER_AUTH_URL,  # ⬅️ YEH ADD KARO
-                issuer=BETTER_AUTH_URL,    # ⬅️ YEH BHI ADD KARO
                 options={
                     "verify_exp": True,
                     "verify_signature": True,
-                    "verify_aud": True,    # ⬅️ YEH BHI
-                    "verify_iss": True,    # ⬅️ YEH BHI
+                    "verify_aud": False,
+                    "verify_iss": False,
                     "require_exp": True,
                 }
             )

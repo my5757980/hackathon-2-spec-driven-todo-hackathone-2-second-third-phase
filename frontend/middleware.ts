@@ -10,13 +10,17 @@ import type { NextRequest } from 'next/server'
 const protectedRoutes = ['/dashboard', '/settings', '/tasks']
 
 // Routes that should redirect to dashboard if already authenticated
-const authRoutes = ['/signin', '/signup']
+const authRoutes = ['/login', '/signin', '/signup']
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  // Check for session cookie (Better Auth uses 'better-auth.session_token')
-  const sessionToken = request.cookies.get('better-auth.session_token')?.value
+  // Check for session cookie
+  // Better Auth uses 'better-auth.session_token' in dev (HTTP)
+  // and '__Secure-better-auth.session_token' in production (HTTPS)
+  const sessionToken =
+    request.cookies.get('better-auth.session_token')?.value ||
+    request.cookies.get('__Secure-better-auth.session_token')?.value
 
   const isAuthenticated = !!sessionToken
   const isProtectedRoute = protectedRoutes.some((route) =>
@@ -29,12 +33,12 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/dashboard', request.url))
   }
 
-  // Redirect unauthenticated users to signin
+  // Redirect unauthenticated users to login
   if (isProtectedRoute && !isAuthenticated) {
-    const signinUrl = new URL('/signin', request.url)
+    const loginUrl = new URL('/login', request.url)
     // Add the attempted URL as a redirect parameter
-    signinUrl.searchParams.set('redirect', pathname)
-    return NextResponse.redirect(signinUrl)
+    loginUrl.searchParams.set('redirect', pathname)
+    return NextResponse.redirect(loginUrl)
   }
 
   return NextResponse.next()

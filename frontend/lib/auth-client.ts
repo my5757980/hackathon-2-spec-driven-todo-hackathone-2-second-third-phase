@@ -26,29 +26,27 @@ function log(...args: any[]) {
   }
 }
 
-// Log the configured URL on module load (helps debug production issues)
-if (typeof window !== 'undefined') {
-  const configuredUrl = process.env.NEXT_PUBLIC_BETTER_AUTH_URL || 'http://localhost:3000'
-  console.log('[Auth Client] Configured NEXT_PUBLIC_BETTER_AUTH_URL:', configuredUrl)
-}
-
 // Determine the base URL for Better Auth
-// In production (Vercel), if NEXT_PUBLIC_BETTER_AUTH_URL is not set,
-// use the browser's origin to ensure auth requests go to the frontend
+// In browser, ALWAYS use window.location.origin so that preview deployments
+// and production deployments both work (each Vercel deployment gets a unique URL)
 function getBetterAuthBaseURL(): string {
-  // First, check if env var is set and not empty
+  // In browser, always use current origin - this ensures every deployment works
+  if (typeof window !== 'undefined') {
+    return window.location.origin
+  }
+
+  // Server-side: use env var
   const envUrl = process.env.NEXT_PUBLIC_BETTER_AUTH_URL
   if (envUrl && envUrl.trim() !== '') {
     return envUrl
   }
 
-  // In browser, use window.location.origin as fallback
-  if (typeof window !== 'undefined') {
-    return window.location.origin
-  }
-
-  // Server-side fallback
   return 'http://localhost:3000'
+}
+
+// Log the resolved URL on module load (helps debug production issues)
+if (typeof window !== 'undefined') {
+  console.log('[Auth Client] Using base URL:', window.location.origin)
 }
 
 const betterAuthBaseURL = getBetterAuthBaseURL()

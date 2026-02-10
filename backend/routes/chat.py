@@ -157,8 +157,10 @@ async def chat(
         )
 
     except Exception as e:
+        import traceback
         print(f"[CHAT] Error processing message: {e}")
+        traceback.print_exc()
         raise HTTPException(
             status_code=500,
-            detail="Failed to process message. Please try again.",
+            detail=f"Failed to process message: {str(e)}",
         )

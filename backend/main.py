@@ -57,7 +57,7 @@ app = FastAPI(
 # Default includes localhost for development and Vercel production domain
 default_origins = ",".join([
     "http://localhost:3000",
-    "https://hackathon-2-spec-driven-todo.vercel.app",
+    "https://hackathon-2-spec-driven-todo-hackat.vercel.app",
 ])
 cors_origins_str = os.getenv("CORS_ORIGINS", default_origins)
 # Clean up origins: strip whitespace and filter empty strings

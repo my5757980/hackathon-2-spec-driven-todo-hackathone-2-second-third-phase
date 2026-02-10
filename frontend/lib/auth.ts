@@ -37,6 +37,15 @@ export const auth = betterAuth({
   secret: process.env.BETTER_AUTH_SECRET,
   baseURL: getServerBetterAuthURL(),
 
+  // Trust all Vercel preview and production deployment origins
+  trustedOrigins: [
+    'http://localhost:3000',
+    'https://hackathon-2-spec-driven-todo-hackat.vercel.app',
+    ...(process.env.VERCEL_URL ? [`https://${process.env.VERCEL_URL}`] : []),
+    ...(process.env.BETTER_AUTH_URL ? [process.env.BETTER_AUTH_URL] : []),
+    ...(process.env.NEXT_PUBLIC_BETTER_AUTH_URL ? [process.env.NEXT_PUBLIC_BETTER_AUTH_URL] : []),
+  ],
+
   // Email/password authentication
   emailAndPassword: {
     enabled: true,

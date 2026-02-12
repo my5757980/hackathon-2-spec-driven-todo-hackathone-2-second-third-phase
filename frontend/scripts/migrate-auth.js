@@ -1,14 +1,36 @@
 // Script to create Better Auth tables in PostgreSQL
 const { Pool } = require('pg');
 
+// Load .env file if dotenv is available, otherwise rely on env vars
+try { require('dotenv').config(); } catch (e) { /* dotenv not installed, use env vars */ }
+
+// Try to read .env manually if DATABASE_URL is not set
+if (!process.env.DATABASE_URL) {
+  const fs = require('fs');
+  const path = require('path');
+  const envPath = path.join(__dirname, '..', '.env');
+  if (fs.existsSync(envPath)) {
+    const envContent = fs.readFileSync(envPath, 'utf-8');
+    const match = envContent.match(/^DATABASE_URL=(.+)$/m);
+    if (match) {
+      process.env.DATABASE_URL = match[1].trim();
+    }
+  }
+}
+
+if (!process.env.DATABASE_URL) {
+  console.error('ERROR: DATABASE_URL not set. Please set it in .env or as an environment variable.');
+  process.exit(1);
+}
+
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL || 'postgresql://neondb_owner:npg_nvgU7XFKPl6e@ep-ancient-voice-a1xi0a8a-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require',
+  connectionString: process.env.DATABASE_URL,
 });
 
 const migrationSQL = `
 -- Better Auth Required Tables
 
--- Create user table
+-- Create user table if not exists
 CREATE TABLE IF NOT EXISTS "user" (
     id TEXT PRIMARY KEY,
     name TEXT NOT NULL,
@@ -18,6 +40,22 @@ CREATE TABLE IF NOT EXISTS "user" (
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
+
+-- Add missing columns to existing user table (safe: IF NOT EXISTS)
+DO $$ BEGIN
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='user' AND column_name='email_verified') THEN
+        ALTER TABLE "user" ADD COLUMN email_verified BOOLEAN NOT NULL DEFAULT FALSE;
+    END IF;
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='user' AND column_name='image') THEN
+        ALTER TABLE "user" ADD COLUMN image TEXT;
+    END IF;
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='user' AND column_name='created_at') THEN
+        ALTER TABLE "user" ADD COLUMN created_at TIMESTAMP NOT NULL DEFAULT NOW();
+    END IF;
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='user' AND column_name='updated_at') THEN
+        ALTER TABLE "user" ADD COLUMN updated_at TIMESTAMP NOT NULL DEFAULT NOW();
+    END IF;
+END $$;
 
 -- Create session table
 CREATE TABLE IF NOT EXISTS "session" (
